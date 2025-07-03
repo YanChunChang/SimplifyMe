@@ -1,0 +1,20 @@
+# Virtuelle Umgebung
+venv/
+
+# Bytecode-Dateien
+__pycache__/
+*.py[cod]
+
+# Temporäre Dateien
+*.log
+*.tmp
+*.swp
+
+# Jupyter
+.ipynb_checkpoints
+
+# VS Code config
+.vscode/
+
+# Sonstiges
+.DS_Store
