@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from transformers import pipeline # type: ignore
 from transformers import BlipProcessor, BlipForConditionalGeneration
@@ -9,6 +10,16 @@ import io
 
 # App starten
 app = FastAPI()
+
+# CORS erlauben (wichtig für Verbindung mit Angular)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # oder z. B. ["http://localhost:4200"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # KI-Modelle vorbereiten (beim Start laden)
 explainer = pipeline("summarization", model="facebook/bart-large-cnn")

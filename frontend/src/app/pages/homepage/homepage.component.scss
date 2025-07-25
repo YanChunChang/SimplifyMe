@@ -1,16 +1,17 @@
+@use "sass:math";
 $li: 3;
 /* [1] */
 $icon-size: 160px;
 /* [2] */
-$menu-size: 300px / 2;
+$menu-size: math.div(300px, 2);
+
 /* [3] */
 $unit-size: 55px;
 /* [4] */
-$menu-position: (
-    ($menu-size * 2) - $icon-size) / -2;
+$menu-position: math.div(($menu-size * 2) - $icon-size, -2) or calc((($menu-size * 2) - $icon-size) / -2);
 $offset: 100px + ($li * 6); // Radius verändert sich je nach Anzahl
 /* [5] */
-$deg: 360deg / $li;
+$deg: math.div(360deg, $li);
 /* [6] */
 
 /* Styles: */
