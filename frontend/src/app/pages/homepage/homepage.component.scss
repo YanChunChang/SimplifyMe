@@ -4,7 +4,6 @@ $li: 3;
 $icon-size: 160px;
 /* [2] */
 $menu-size: math.div(300px, 2);
-
 /* [3] */
 $unit-size: 55px;
 /* [4] */
@@ -22,21 +21,60 @@ $deg: math.div(360deg, $li);
     transform: translate(-50%, -50%);
     background: whitesmoke;
     cursor: pointer;
-    color: #c84bee;
     border-radius: 50%;
     height: $icon-size;
     width: $icon-size;
     line-height: $icon-size;
     text-align: center;
-    font-size: 1.75em;
+    //font-size: 1.75em;
     font-weight: bold;
     transition: 0.24s 0.2s;
 }
 
 .icon:hover {
-    background: rgba(#c84bee, 0.75);
-    color: whitesmoke;
+    background: linear-gradient(135deg, #5ee7df, #ab76cc);
+    .icon-title {
+        color: whitesmoke;
+        -webkit-text-fill-color: whitesmoke;
+    }
 }
+
+.icon-title {
+    font-size: 1.75em;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(90deg, #5ee7df, #ab76cc, #5ee7df);
+    background-size: 300%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s infinite linear;
+    text-shadow: 0 0 20px rgba(93, 166, 221, 0.4);
+    z-index: 11;
+    position: relative;
+
+  }
+  .icon-title:hover {
+    // background: linear-gradient(135deg, #5ee7df, #ab76cc, #5ee7df);
+    // color: whitesmoke;
+    -webkit-text-fill-color: whitesmoke;
+    background-clip: text;
+    -webkit-background-clip: text;
+    box-shadow: 0 0 12px rgba(94, 231, 223, 0.3);
+    border-radius: 50%;
+    animation: shine 3s infinite linear;
+    background-size: 200%;
+  }
+  
+  @keyframes shine {
+    0% {
+      background-position: 0%;
+    }
+    100% {
+      background-position: 200%;
+    }
+  }
 
 .menu {
     position: absolute;
@@ -95,12 +133,16 @@ $deg: math.div(360deg, $li);
     width: $unit-size;
     height: $unit-size;
     line-height: $unit-size;
-    color: #c84bee;
+    color: linear-gradient(135deg, #5ee7df, #ab76cc);
     border-radius: 50%;
     transition: 0.6s;
 }
 
-
+.unit:hover{
+    color: linear-gradient(135deg, #5ee7df, #ab76cc) !important;
+    box-shadow: 0 0 12px rgba(94, 231, 223, 0.3);
+    border-radius: 50%;
+}
 
 
 /* Just CodePen layout stuff: */
