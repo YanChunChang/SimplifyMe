@@ -8,18 +8,14 @@
         <ng-template #empty>
             <div>Drag and drop files to here to upload.</div>
         </ng-template>
-        <!-- <ng-template #content>
-            <ul *ngIf="uploadedFiles.length">
-                <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-            </ul>
-        </ng-template> -->
     </p-fileupload>
     }@else {
         <p-galleria 
             [value]="uploadedFiles" 
             [responsiveOptions]="responsiveOptions"
-            [containerStyle]="{ 'width': '100%', 'max-width': '640px', 'margin': 'auto' }"
-            [numVisible]="3">
+            [numVisible]="3"
+            [(activeIndex)]="selectedImageIndex"
+            (activeIndexChange)="onImageChange($event)">
             <ng-template #item let-item>
                 <div class="galleria-item-wrapper">
                     <img [src]="item.itemImageSrc" class="galleria-image" />
@@ -30,6 +26,9 @@
                     style="height: 60px; object-fit: cover;" />
             </ng-template>
         </p-galleria>
+        <div class="caption-box typing" *ngIf="selectedCaption">
+            <p>{{ selectedCaption }}</p>
+          </div>
         <div class="button-wrapper">
             <p-button label="Try again" icon="pi pi-refresh" (onClick)="resetUpload()" styleClass="back-button" />
         </div>

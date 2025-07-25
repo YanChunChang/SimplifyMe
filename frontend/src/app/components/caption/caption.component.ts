@@ -19,7 +19,8 @@ import { GalleriaModule } from 'primeng/galleria';
 export class CaptionComponent {
     uploadedFiles: any[] = [];
     isUploading: boolean = false;
-    images = model([]);
+    selectedImageIndex: number = 0;
+    selectedCaption: string = '';
 
     responsiveOptions: any[] = [
         {
@@ -28,9 +29,10 @@ export class CaptionComponent {
         },
         {
             breakpoint: '575px',
-            numVisible: 1
+            numVisible: 2
         }
     ];
+    captionMap: any;
 
     constructor(private messageService: MessageService, private ApiService: ApiService) { }
 
@@ -40,32 +42,49 @@ export class CaptionComponent {
         this.uploadedFiles = files.map((file) => {
             const objectURL = URL.createObjectURL(file);
             return {
-              itemImageSrc: objectURL,
-              thumbnailImageSrc: objectURL,
-              alt: file.name,
-              title: file.name
+                itemImageSrc: objectURL,
+                thumbnailImageSrc: objectURL,
+                alt: file.name,
+                title: file.name
             };
-          });
-
-        console.log("event.files", event.files);
-        console.log("this.uploadedFiles", this.uploadedFiles);
+        });
 
         this.ApiService.getImageCaption(files).subscribe({
             next: (res) => {
-              console.log('Caption Response:', res);
-              this.messageService.add({ severity: 'success', summary: 'Upload erfolgreich' });
-              this.isUploading = true;
+                this.uploadedFiles = res.map((r: any) => ({
+                    itemImageSrc: URL.createObjectURL(files.find(f => f.name === r.filename)!),
+                    thumbnailImageSrc: URL.createObjectURL(files.find(f => f.name === r.filename)!),
+                    filename: r.filename
+                  }));
+            
+                  // speichern der Captions
+                  this.captionMap = res.reduce((acc: any, curr: any) => {
+                    acc[curr.filename] = curr.caption;
+                    return acc;
+                  }, {});
+            
+                  // erstes Bild setzen
+                  this.selectedImageIndex = 0;
+                  const firstFilename = this.uploadedFiles[0]?.filename;
+                  this.selectedCaption = this.captionMap[firstFilename] || '';
+                  this.messageService.add({ severity: 'success', summary: 'Upload successful' });
+                  this.isUploading = true;
             },
             error: (err) => {
-              console.error('Fehler:', err);
-              this.messageService.add({ severity: 'error', summary: 'Fehler beim Upload' });
+                console.error('Fehler:', err);
+                this.messageService.add({ severity: 'error', summary: 'Error during upload' });
             }
-          });
-        }
+        });
+    }
 
-        resetUpload() {
-            this.uploadedFiles = [];
-            this.isUploading = false;
-            // Optional: weitere Zustände zurücksetzen
-          }
+    onImageChange(event: any) {
+        this.selectedImageIndex = event;
+        const currentFile = this.uploadedFiles[this.selectedImageIndex];
+        this.selectedCaption = this.captionMap[currentFile.filename] || '';
+    }
+
+    resetUpload() {
+        this.uploadedFiles = [];
+        this.isUploading = false;
+    }
 }
