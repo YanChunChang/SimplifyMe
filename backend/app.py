@@ -31,7 +31,7 @@ model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-capt
 class TextInput(BaseModel):
     text: str
 
-# Endpunkt 1: Text zusammenfassen
+# text simplification
 @app.post("/api/explain")
 def explain_text(input: TextInput):
     # prompt = "paraphrase: " + input.text
@@ -40,7 +40,7 @@ def explain_text(input: TextInput):
     result = explainer(input.text, max_new_tokens=token_limit)[0]['summary_text']
     return {"simplified": result}
 
-# Endpunkt 2: Stimmung erkennen
+# Sentiment analyise
 @app.post("/api/sentiment")
 def detect_sentiment(input: TextInput):
     result = sentiment_analyzer(input.text)[0]
@@ -49,6 +49,7 @@ def detect_sentiment(input: TextInput):
         "score": round(result["score"], 2)
     }
 
+# image captioning
 @app.post("/api/caption")
 async def generate_caption(files: List[UploadFile] = File(...)):
     results = []
