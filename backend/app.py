@@ -1,4 +1,3 @@
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from transformers import pipeline # type: ignore
@@ -7,14 +6,15 @@ from PIL import Image
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import JSONResponse
 import io
+from typing import List
 
 # App starten
 app = FastAPI()
 
-# CORS erlauben (wichtig für Verbindung mit Angular)
+# CORS erlauben
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # oder z. B. ["http://localhost:4200"]
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,16 +50,21 @@ def detect_sentiment(input: TextInput):
     }
 
 @app.post("/api/caption")
-async def generate_caption(file: UploadFile = File(...)):
-    # Bildinhalt lesen
-    image_bytes = await file.read()
-    image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
+async def generate_caption(files: List[UploadFile] = File(...)):
+    results = []
+    for file in files:
+        # Bildinhalt lesen
+        image_bytes = await file.read()
+        image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
 
-    # Vorverarbeitung
-    inputs = processor(images=image, return_tensors="pt") # type: ignore
+        # Vorverarbeitung
+        inputs = processor(images=image, return_tensors="pt") # type: ignore
 
-    # Modellvorhersage
-    out = model.generate(**inputs) # type: ignore
-    caption = processor.decode(out[0], skip_special_tokens=True) # type: ignore
-
-    return JSONResponse(content={"caption": caption})
+        # Modellvorhersage
+        out = model.generate(**inputs) # type: ignore
+        caption = processor.decode(out[0], skip_special_tokens=True) # type: ignore
+        results.append({
+            "filename": file.filename,
+            "caption": caption
+        })
+    return results

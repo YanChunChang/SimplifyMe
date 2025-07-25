@@ -1,8 +1,27 @@
+// body {
+//   font-family: sans-serif;
+//   background: radial-gradient(#443d75, #011638) !important;
+//   transform: translate3d(0, 0, 0);
+//   margin: 0;
+//   padding: 0;
+//   height: 100vh;
+// }
+
+// html {
+//   display: flex;
+//   padding: 1rem;
+// }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 90%;
+}
+
 body {
-    font-family: sans-serif;
-    background: radial-gradient(#443d75, #011638) !important;
-    transform: translate3d(0, 0, 0);
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  background: radial-gradient(#443d75, #011638);
+}

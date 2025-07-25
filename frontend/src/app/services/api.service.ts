@@ -18,9 +18,11 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/explain`, { text });
   }
 
-  getImageCaption(file: File): Observable<{ caption: string }> {
+  getImageCaption(files: File[]): Observable<{ filename: string; caption: string }[]> {
     const formData = new FormData();
-    formData.append('file', file);
-    return this.http.post<{ caption: string }>(`${this.baseUrl}/caption`, formData);
+    for (const file of files) {
+      formData.append('files', file, file.name);  // Schlüssel "files" muss zum Backend passen
+    }
+    return this.http.post<{ filename: string; caption: string }[]>(`${this.baseUrl}/caption`, formData);
   }
 }

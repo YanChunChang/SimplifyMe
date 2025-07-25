@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, model, ViewEncapsulation } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
@@ -6,37 +6,66 @@ import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { GalleriaModule } from 'primeng/galleria';
 
 @Component({
-  selector: 'app-caption',
-  standalone: true,
-  imports: [CommonModule, FileUploadModule, ToastModule, ButtonModule, CardModule],
-  templateUrl: './caption.component.html',
-  styleUrl: './caption.component.scss',
-  providers: [MessageService]
+    selector: 'app-caption',
+    standalone: true,
+    imports: [CommonModule, FileUploadModule, ToastModule, ButtonModule, CardModule, GalleriaModule],
+    templateUrl: './caption.component.html',
+    styleUrl: './caption.component.scss',
+    providers: [MessageService],
 })
 export class CaptionComponent {
     uploadedFiles: any[] = [];
+    isUploading: boolean = false;
+    images = model([]);
 
-    constructor(private messageService: MessageService) {}
+    responsiveOptions: any[] = [
+        {
+            breakpoint: '1300px',
+            numVisible: 4
+        },
+        {
+            breakpoint: '575px',
+            numVisible: 1
+        }
+    ];
 
-    onUpload(event:FileUploadEvent) {
-        for(let file of event.files) {
-            this.uploadedFiles.push(file);
+    constructor(private messageService: MessageService, private ApiService: ApiService) { }
+
+    customUpload(event: any) {
+        const files: File[] = event.files;
+
+        this.uploadedFiles = files.map((file) => {
+            const objectURL = URL.createObjectURL(file);
+            return {
+              itemImageSrc: objectURL,
+              thumbnailImageSrc: objectURL,
+              alt: file.name,
+              title: file.name
+            };
+          });
+
+        console.log("event.files", event.files);
+        console.log("this.uploadedFiles", this.uploadedFiles);
+
+        this.ApiService.getImageCaption(files).subscribe({
+            next: (res) => {
+              console.log('Caption Response:', res);
+              this.messageService.add({ severity: 'success', summary: 'Upload erfolgreich' });
+              this.isUploading = true;
+            },
+            error: (err) => {
+              console.error('Fehler:', err);
+              this.messageService.add({ severity: 'error', summary: 'Fehler beim Upload' });
+            }
+          });
         }
 
-        this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-    }
-
-//   onFileSelected(event: any) {
-//     this.uploadedFiles = event.target.files[0];
-//   }
-
-//   upload() {
-//     if (!this.uploadedFiles) return;
-
-//     this.ApiService.getImageCaption(this.uploadedFiles).subscribe(res => {
-//       this.caption = res.caption;
-//     });
-//   }
+        resetUpload() {
+            this.uploadedFiles = [];
+            this.isUploading = false;
+            // Optional: weitere Zustände zurücksetzen
+          }
 }

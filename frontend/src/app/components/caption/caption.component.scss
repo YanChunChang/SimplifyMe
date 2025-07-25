@@ -1,7 +1,65 @@
+// .card {
+//   background: var(--card-bg);
+//   border: var(--card-border);
+//   padding: 20rem;
+//   border-radius: 10px;
+//   margin-bottom: 1rem;
+// }
+
 .card {
-  background: var(--card-bg);
-  border: var(--card-border);
-  padding: 2rem;
   border-radius: 10px;
-  margin-bottom: 1rem;
+
+  padding: 6rem;
+}
+
+::ng-deep .p-fileupload-advanced {
+  width: 900px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 2rem;
+}
+
+.back-button {
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 200px;
+}
+
+.galleria-item-wrapper {
+  height: 400px; /* fixierte Höhe */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000; /* optional */
+  overflow: hidden;
+}
+
+.galleria-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+::ng-deep .p-galleria {
+  border: 3px solid transparent;
+  border-radius: 12px;
+  background-image:
+    linear-gradient(#120e4d, #0f0f0f),
+    linear-gradient(90deg,  #4facfe, #9f34b8);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 0 0 20px rgba(79, 172, 254, 0.4);
+  transition: all 0.1s ease;
+}
+
+::ng-deep .p-galleria-thumbnails-content {
+  background-color: transparent;
+}
+
+@media (max-width: 768px) {
+  ::ng-deep .p-fileupload-advanced {
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+  }
 }
