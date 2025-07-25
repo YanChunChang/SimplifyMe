@@ -1,14 +1,5 @@
-// .card {
-//   background: var(--card-bg);
-//   border: var(--card-border);
-//   padding: 20rem;
-//   border-radius: 10px;
-//   margin-bottom: 1rem;
-// }
-
 .card {
   border-radius: 10px;
-
   padding: 6rem;
 }
 
@@ -19,19 +10,47 @@
   padding: 2rem;
 }
 
-.back-button {
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+::ng-deep .p-button.back-button {
+  background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(94, 231, 223, 0.3);
+  transition: all 0.3s ease;
   margin-top: 1rem;
-  width: 100%;
-  max-width: 200px;
+}
+
+::ng-deep .p-button.back-button:hover {
+  background: linear-gradient(135deg, #ad7dcb 0%, #5ee7df 100%);
+  color: whitesmoke;
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(180, 144, 202, 0.5);
 }
 
 .galleria-item-wrapper {
   height: 400px; /* fixierte Höhe */
+  aspect-ratio: 4 / 3; 
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000; /* optional */
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 300px;
+  }
+
+  @media (max-width: 480px) {
+    height: 200px;
+  }
 }
 
 .galleria-image {
