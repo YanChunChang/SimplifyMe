@@ -22,7 +22,7 @@ app.add_middleware(
 
 
 # KI-Modelle vorbereiten (beim Start laden)
-explainer = pipeline("summarization", model="facebook/bart-large-cnn")
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
 sentiment_analyzer = pipeline("text-classification", model="tabularisai/multilingual-sentiment-analysis")
 processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
 model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
@@ -36,9 +36,9 @@ class TextInput(BaseModel):
 def explain_text(input: TextInput):
     # prompt = "paraphrase: " + input.text
     input_length = len(input.text.split())
-    token_limit = 200 if input_length > 100 else 60
-    result = explainer(input.text, max_new_tokens=token_limit)[0]['summary_text']
-    return {"simplified": result}
+    # token_limit = 300 if input_length > 100 else 60
+    result = summarizer(input.text, max_length=130, min_length=30, do_sample=False)[0]['summary_text']
+    return {"summary": result}
 
 # Sentiment analyise
 @app.post("/api/sentiment")

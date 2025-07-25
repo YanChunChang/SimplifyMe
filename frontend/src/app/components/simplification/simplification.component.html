@@ -1,1 +1,16 @@
-<p>simplification works!</p>
+<div class="card">
+    <h2>Summarizing your text</h2>
+    @if (!formSubmitted) {
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+            <textarea rows="7" cols="30" pTextarea formControlName="text"></textarea>
+            <div class="button-wrapper">
+                <p-button label="Submit" icon="pi pi-send"  (onClick)="onSubmit()" styleClass="cool-button"/>
+            </div>
+        </form>
+    }@else {
+        <textarea rows="7" cols="30" pTextarea>{{ summary }}</textarea>
+        <div class="button-wrapper">
+            <p-button label="Try again" icon="pi pi-refresh" (onClick)="resetUpload()" styleClass="cool-button" />
+        </div>
+    }
+</div>

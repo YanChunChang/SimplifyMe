@@ -1,0 +1,90 @@
+.card {
+    border-radius: 10px;
+    padding: 6rem;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(180deg, #5ee7df, #ab76cc);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s infinite linear;
+    position: relative;
+    text-shadow: 0 0 20px rgba(93, 166, 221, 0.4);
+}
+
+@keyframes shine {
+    0% {
+        background-position: -200%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
+}
+
+
+textarea {
+    width: 100%;
+    max-width: 600px;
+    background:
+        linear-gradient(#1c1c3c, #1c1c3c) padding-box,
+        /* Hintergrund */
+        linear-gradient(135deg, #5ee7df, #b490ca) border-box;
+    /* Border-Verlauf */
+    border: 3px solid transparent;
+    border-radius: 8px;
+    padding: 1rem;
+    color: #e0e0e0;
+    font-size: 1rem;
+    resize: vertical;
+    transition: all 0.3s ease-in-out;
+}
+
+::ng-deep .p-textarea:enabled:focus {
+    background: 
+      linear-gradient(#1c1c3c, #1c1c3c) padding-box,
+      linear-gradient(135deg, #5ee7df, #b490ca) border-box;
+    background-clip: padding-box, border-box;
+    background-origin: border-box;
+    border: 3px solid transparent;
+    box-shadow: 0 0 10px rgba(94, 231, 223, 0.5);
+    outline: none;
+  }
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+::ng-deep .p-button.cool-button {
+    background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(94, 231, 223, 0.3);
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+::ng-deep .p-button.cool-button:hover {
+    background: linear-gradient(135deg, #ad7dcb 0%, #5ee7df 100%) !important;
+    color: whitesmoke !important;
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(180, 144, 202, 0.5);
+}
+
+@keyframes shine {
+  0% {
+    background-position: -200%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}

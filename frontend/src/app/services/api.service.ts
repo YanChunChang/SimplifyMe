@@ -21,7 +21,7 @@ export class ApiService {
   getImageCaption(files: File[]): Observable<{ filename: string; caption: string }[]> {
     const formData = new FormData();
     for (const file of files) {
-      formData.append('files', file, file.name);  // Schlüssel "files" muss zum Backend passen
+      formData.append('files', file, file.name);  //"files" muss zum Backend passen
     }
     return this.http.post<{ filename: string; caption: string }[]>(`${this.baseUrl}/caption`, formData);
   }
